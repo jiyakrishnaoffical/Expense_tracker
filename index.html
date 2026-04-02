@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Expense Tracker</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h1>Expense Tracker</h1>
+            </div>
+            <button id="themeToggle" class="icon-btn" aria-label="Toggle Dark Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            
+            <!-- Left Column: Dashboard & Form -->
+            <div class="left-col">
+                <!-- Summary Card -->
+                <section class="card summary-card gradient-bg">
+                    <h2>Total Expenses</h2>
+                    <p class="total-amount" id="totalAmount">$0.00</p>
+                    <div class="monthly-summary">
+                        <span>This Month: <strong id="monthlyTotal">$0.00</strong></span>
+                    </div>
+                </section>
+
+                <!-- Add/Edit Expense Form -->
+                <section class="card form-card">
+                    <h2 id="formTitle">Add New Expense</h2>
+                    <form id="expenseForm">
+                        <input type="hidden" id="expenseId">
+                        
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                                <input type="number" id="amount" placeholder="0.00" step="0.01" min="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-list"></i>
+                                <select id="category" required>
+                                    <option value="" disabled selected>Select Category</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Bills">Bills</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <div class="input-with-icon">
+                                <i class="fa-regular fa-calendar"></i>
+                                <input type="date" id="date" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-pen"></i>
+                                <input type="text" id="description" placeholder="What was this for?" required autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary-btn" id="submitBtn">Add Expense</button>
+                            <button type="button" class="btn secondary-btn hidden" id="cancelEditBtn">Cancel</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Chart Section -->
+                <section class="card chart-card">
+                    <h2>Category Breakdown</h2>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Expense List & Filters -->
+            <div class="right-col">
+                <section class="card list-card">
+                    <div class="list-header">
+                        <h2>Recent Expenses</h2>
+                        
+                        <!-- Filters & Controls -->
+                        <div class="controls">
+                            <div class="search-box">
+                                <i class="fa-solid fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="Search expenses...">
+                            </div>
+                            
+                            <div class="filters">
+                                <select id="filterCategory">
+                                    <option value="All">All Categories</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Travel">Travel</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Bills">Bills</option>
+                                    <option value="Others">Others</option>
+                                </select>
+
+                                <select id="sortConfig">
+                                    <option value="date-desc">Newest First</option>
+                                    <option value="date-asc">Oldest First</option>
+                                    <option value="amount-desc">Amount: High to Low</option>
+                                    <option value="amount-asc">Amount: Low to High</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expenses Container -->
+                    <div class="expense-list" id="expenseList">
+                        <!-- Expense items will be dynamically injected here -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div class="empty-state hidden" id="emptyState">
+                        <i class="fa-solid fa-receipt"></i>
+                        <p>No expenses found.</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
